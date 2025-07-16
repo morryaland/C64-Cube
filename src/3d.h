@@ -24,7 +24,7 @@ struct obj_s {
   struct mesh_s *mesh;
 };
 
-__zp extern char tsin[];
+extern signed char tsin[];
 
 extern struct obj_s cube;
 extern struct empty_s cam;

@@ -2,9 +2,11 @@
 #include "draw.h"
 #include "3d.h"
 
-__zp char tsin[] = {
-  1, 26, 50, 75, 98, 121, 143, 163, 182, 198, 213, 226, 237, 245, 252, 255,
-  255, 255, 252, 245, 237, 226, 213, 198, 182, 163, 143, 121, 98, 75, 50, 26
+signed char tsin[] = {
+1, 7, 13, 19, 25, 31, 36, 41, 46, 50, 54, 57, 60, 62, 63, 64, 64, 64,
+63, 62, 60, 57, 54, 50, 46, 41, 36, 31, 25, 19, 13, 7, 1, -6, -12, -18,
+-24, -30, -35, -40, -45, -49, -53, -56, -59, -61, -62, -63, -64, -63,
+-62, -61, -59, -56, -53, -49, -45, -40, -35, -30, -24, -18, -12, -6
 };
 
 void look_at(struct empty_s *cam)
@@ -16,7 +18,7 @@ void look_at(struct empty_s *cam)
     for (j = 0; j < 3; j++) {
       nvert = cube.mesh->i[i+j] * 3;
       for (k = 0; k < 3; k++) {
-        v[j][k] = cube.mesh->v[nvert+k] << 8;
+        v[j][k] = cube.mesh->v[nvert+k] << 6;
       }
       rotate_v3(v[j], cube.point->rtta, cube.point->rttb);
       v[j][0] += cube.point->posx - cam->posx;
@@ -24,14 +26,14 @@ void look_at(struct empty_s *cam)
       v[j][2] += cube.point->posz - cam->posz;
       rotate_v3(v[j], cam->rtta, cam->rttb);
       if (v[j][2] > 0) break;
-      v[j][0] = (((long)v[j][0]) << 8)/v[j][2];
+      v[j][0] = (v[j][0] << 6)/v[j][2];
       if (v[j][0] <= -127 || v[j][0] >= 128)
         break;
-      v[j][1] = (((long)v[j][1]) << 8)/v[j][2];
+      v[j][1] = (v[j][1] << 6)/v[j][2];
       if (v[j][1] <= -100 || v[j][1] >= 100)
         break;
-      sv[j][0] = v[j][0] + 128;
-      sv[j][1] = v[j][1] + 100;
+      sv[j][0] = 128 - v[j][0];
+      sv[j][1] = 100 - v[j][1];
     }
     triangle(sv[0][0], sv[0][1], sv[1][0], sv[1][1], sv[2][0], sv[2][1]);
   }
@@ -39,25 +41,23 @@ void look_at(struct empty_s *cam)
 
 void rotate_v3(int v[3], char a, char b)
 {
-  long tx, ty, tz;
-  int sin, cos;
+  int tx, ty, tz;
+  signed char sin, cos;
   if (a) {
     ty = v[1];
     tz = v[2];
-    sin = a&32 ? -tsin[a&31] : tsin[a&31];
-    a += 16;
-    cos = a&32 ? -tsin[a&31] : tsin[a&31];
-    v[1] = (ty * cos + tz * sin) >> 8;
-    v[2] = (tz * cos - ty * sin) >> 8;
+    sin = tsin[a&63];
+    cos = tsin[(a+16)&63];
+    v[1] = (ty * cos + tz * sin) >> 6;
+    v[2] = (tz * cos - ty * sin) >> 6;
   }
   if (b) {
     tx = v[0];
     tz = v[2];
-    sin = b&32 ? -tsin[b&31] : tsin[b&31];
-    b += 16;
-    cos = b&32 ? -tsin[b&31] : tsin[b&31];
-    v[0] = (tx * cos + tz * sin) >> 8;
-    v[2] = (tz * cos - tx * sin) >> 8;
+    sin = tsin[b&63];
+    cos = tsin[(b+16)&63];
+    v[0] = (tx * cos + tz * sin) >> 6;
+    v[2] = (tz * cos - tx * sin) >> 6;
   }
 }
 
