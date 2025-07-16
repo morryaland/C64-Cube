@@ -52,12 +52,12 @@ void rotate_v3(int v[3], char a, char b)
   }
   if (b) {
     tx = v[0];
-    ty = v[1];
+    tz = v[2];
     sin = b&32 ? -tsin[b&31] : tsin[b&31];
     b += 16;
     cos = b&32 ? -tsin[b&31] : tsin[b&31];
-    v[0] = (tx * cos + ty * sin) >> 8;
-    v[1] = (ty * cos - tx * sin) >> 8;
+    v[0] = (tx * cos + tz * sin) >> 8;
+    v[2] = (tz * cos - tx * sin) >> 8;
   }
 }
 

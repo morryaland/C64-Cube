@@ -3,7 +3,6 @@ TARGET = bin/main.prg
 OBJECTS = obj/main.rel obj/draw.rel obj/cube.rel obj/cam.rel obj/3d.rel
 LIBS = c64.lib
 
-# SDK location
 SDKDIR = .
 
 SDCCTARGET = -mmos6502 -D__C64__
