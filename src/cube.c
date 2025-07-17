@@ -14,15 +14,15 @@ void init_cube(void)
   cube.mesh = malloc(sizeof(struct mesh_s));
   cube.mesh->v_c = 24;
   cube.mesh->i_c = 36;
-  cube.mesh->v = (signed char[]){
-   -1,  1, -1,
-    1,  1, -1,
-    1, -1, -1,
-   -1, -1, -1,
-   -1,  1,  1,
-    1,  1,  1,
-    1, -1,  1,
-   -1, -1,  1
+  cube.mesh->v = (int[]){
+   -64,  64, -64,
+    64,  64, -64,
+    64, -64, -64,
+   -64, -64, -64,
+   -64,  64,  64,
+    64,  64,  64,
+    64, -64,  64,
+   -64, -64,  64
   };
   cube.mesh->i = (char[]){
     0, 1, 2, 0, 2, 3,

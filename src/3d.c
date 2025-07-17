@@ -1,4 +1,5 @@
-#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "draw.h"
 #include "3d.h"
 
@@ -17,9 +18,7 @@ void look_at(struct empty_s *cam)
   for (i = 0; i < cube.mesh->i_c; i += 3) {
     for (j = 0; j < 3; j++) {
       nvert = cube.mesh->i[i+j] * 3;
-      for (k = 0; k < 3; k++) {
-        v[j][k] = cube.mesh->v[nvert+k] << 6;
-      }
+      memcpy(v[j], cube.mesh->v + nvert, 3 * sizeof(int));
       rotate_v3(v[j], cube.point->rtta, cube.point->rttb);
       v[j][0] += cube.point->posx - cam->posx;
       v[j][1] += cube.point->posy - cam->posy;

@@ -4,7 +4,7 @@
 #define GRID 255
 
 struct mesh_s {
-  signed char *v;
+  int *v;
   int *f;
   char *i;
   char v_c;
