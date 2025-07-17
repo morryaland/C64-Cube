@@ -12,7 +12,7 @@ signed char tsin[] = {
 void look_at(struct empty_s *cam)
 {
   char nvert, i, j, k;
-  char sv[3][2];
+  __zp char sv[3][2];
   int v[3][3];
   for (i = 0; i < cube.mesh->i_c; i += 3) {
     for (j = 0; j < 3; j++) {
@@ -35,7 +35,9 @@ void look_at(struct empty_s *cam)
       sv[j][0] = 128 - v[j][0];
       sv[j][1] = 100 - v[j][1];
     }
-    triangle(sv[0][0], sv[0][1], sv[1][0], sv[1][1], sv[2][0], sv[2][1]);
+    line(sv[0][0], sv[0][1], sv[1][0], sv[1][1]);
+    line(sv[1][0], sv[1][1], sv[2][0], sv[2][1]);
+    line(sv[2][0], sv[2][1], sv[0][0], sv[0][1]);
   }
 }
 
