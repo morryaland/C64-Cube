@@ -1,38 +1,24 @@
 #ifndef __3D_H__
 #define __3D_H__
 
-#define GRID 255
-
-struct mesh_s {
-  int *v;
-  int *f;
-  char *i;
-  char v_c;
-  char i_c;
-};
-
-struct empty_s {
-  int posx;
-  int posy;
-  int posz;
-  char rtta;
-  char rttb;
-};
-
-struct obj_s {
-  struct empty_s *point;
-  struct mesh_s *mesh;
-};
-
 extern signed char tsin[];
 
-extern struct obj_s cube;
-extern struct empty_s cam;
+extern int cubeposx;
+extern int cubeposy;
+extern int cubeposz;
+extern char cubertta;
+extern char cuberttb;
+extern int cubev[];
+//extern int cubef[];
+extern char cubei[];
 
-void init_cube(void);
-void free_cube(void);
+extern int camposx;
+extern int camposy;
+extern int camposz;
+extern char camrtta;
+extern char camrttb;
 
-void look_at(struct empty_s *point);
+void look_at_cam();
 
 void rotate_v3(int v[3], char a, char b);
 

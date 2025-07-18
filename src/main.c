@@ -21,12 +21,11 @@ int main(void)
   VIC.addr = VIC_MEMSETUP;
   /* set pallite */
   memset(SCREEN_RAM, 0x10, 1000);
-  init_cube();
   while (1) {
     /* clearbitmap */
     memset(BITMAP_RAM, 0, 8000);
-    look_at(&cam);
-    cube.point->rttb++;
-    cube.point->rtta++;
+    look_at_cam();
+    cuberttb++;
+    cubertta++;
   }
 }

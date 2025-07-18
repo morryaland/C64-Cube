@@ -10,21 +10,24 @@ signed char tsin[] = {
 -62, -61, -59, -56, -53, -49, -45, -40, -35, -30, -24, -18, -12, -6
 };
 
-void look_at(struct empty_s *cam)
+void look_at_cam()
 {
-  char nvert, i, j, k;
-  __zp char sv[3][2];
+  char nvert, i, j;
+  char sv[3][2];
   int v[3][3];
-  for (i = 0; i < cube.mesh->i_c; i += 3) {
+  for (i = 0; i < 36 /* cubei len */; i += 3) {
     for (j = 0; j < 3; j++) {
-      nvert = cube.mesh->i[i+j] * 3;
-      memcpy(v[j], cube.mesh->v + nvert, 3 * sizeof(int));
-      rotate_v3(v[j], cube.point->rtta, cube.point->rttb);
-      v[j][0] += cube.point->posx - cam->posx;
-      v[j][1] += cube.point->posy - cam->posy;
-      v[j][2] += cube.point->posz - cam->posz;
-      rotate_v3(v[j], cam->rtta, cam->rttb);
-      if (v[j][2] > 0) break;
+      nvert = cubei[i+j] * 3;
+      v[j][0] = cubev[nvert];
+      v[j][1] = cubev[nvert+1];
+      v[j][2] = cubev[nvert+2];
+      rotate_v3(v[j], cubertta, cuberttb);
+      v[j][0] += cubeposx - camposx;
+      v[j][1] += cubeposy - camposy;
+      v[j][2] += cubeposz - camposz;
+      rotate_v3(v[j], camrtta, camrttb);
+      v[j][2] += 64;
+      if (v[j][2] <= 0) break;
       v[j][0] = (v[j][0] << 6)/v[j][2];
       if (v[j][0] <= -127 || v[j][0] >= 128)
         break;
@@ -34,9 +37,11 @@ void look_at(struct empty_s *cam)
       sv[j][0] = 128 - v[j][0];
       sv[j][1] = 100 - v[j][1];
     }
-    line(sv[0][0], sv[0][1], sv[1][0], sv[1][1]);
-    line(sv[1][0], sv[1][1], sv[2][0], sv[2][1]);
-    line(sv[2][0], sv[2][1], sv[0][0], sv[0][1]);
+    if (j == 3) {
+      line(sv[0][0], sv[0][1], sv[1][0], sv[1][1]);
+      line(sv[1][0], sv[1][1], sv[2][0], sv[2][1]);
+      line(sv[2][0], sv[2][1], sv[0][0], sv[0][1]);
+    }
   }
 }
 
