@@ -20,12 +20,19 @@ int main(void)
   CIA2.pra &= ~1;
   VIC.addr = VIC_MEMSETUP;
   /* set pallite */
+#if LINE_MODE
   memset(SCREEN_RAM, 0x10, 1000);
+#else
+  memset(COLOR_RAM, 1, 1000);
+#endif
   while (1) {
     /* clearbitmap */
     memset(BITMAP_RAM, 0, 8000);
+    triangle(123, 100, 12, 42, 35, 120, 0);
+    /*
     look_at_cam();
     cuberttb++;
     cubertta++;
+    */
   }
 }

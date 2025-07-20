@@ -38,9 +38,11 @@ void look_at_cam()
       sv[j][1] = 100 - v[j][1];
     }
     if (j == 3) {
+#if LINE_MODE
       line(sv[0][0], sv[0][1], sv[1][0], sv[1][1]);
       line(sv[1][0], sv[1][1], sv[2][0], sv[2][1]);
       line(sv[2][0], sv[2][1], sv[0][0], sv[0][1]);
+#endif
     }
   }
 }

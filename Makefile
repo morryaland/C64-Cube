@@ -10,7 +10,7 @@ SDCCOPT = --max-allocs-per-node 25000 --opt-code-speed --allow-unsafe-read --use
 SDCCDEBUG = --i-code-in-asm
 SDKINC = -I $(SDKDIR)/include
 
-CFLAGS = $(SDCCTARGET) $(SDCCOPT) $(SDCCDEBUG) $(SDKINC) -DLINE_MODE=1 --less-pedantic
+CFLAGS = $(SDCCTARGET) $(SDCCOPT) $(SDCCDEBUG) $(SDKINC) --less-pedantic
 LDFLAGS = -L $(SDKDIR)/lib -mmos6502 --no-std-crt0
 
 CRTPRG = $(SDKDIR)/lib/c64_prg_crt0.rel
