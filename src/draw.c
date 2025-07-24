@@ -11,6 +11,26 @@ _+32,_+33,_+34,_+35,_+36,_+37,_+38,_+39,_+352,_+353,_+354,_+355,_+356,_+357,_+35
 
 #if !LINE_MODE
 __zp char curcolor;
+__zp char xbitf[] = {
+  0b10011001,
+  0b01100110,
+  0b00011001,
+  0b00100110,
+  0b00001001,
+  0b00000110,
+  0b00000001,
+  0b00000010,
+};
+__zp char xbitl[] = {
+  0b10000000,
+  0b01000000,
+  0b10010000,
+  0b01100000,
+  0b10011000,
+  0b01100100,
+  0b10011001,
+  0b01100110,
+};
 #endif
 
 #if LINE_MODE
@@ -91,8 +111,8 @@ void hline(char xl, char y, char xr) {
     xr = tmp;
   }
   char *addr = (char*)ylookup[y];
-  char fbit = 0b11111111 >> (xl&6);
-  char lbit = 0b11111111 << 8 - (xr&6);
+  char fbit = xbitf[(xl&6)+(y%2)];
+  char lbit = xbitl[(xr&6)+(y%2)];
   xl &= ~7;
   xr &= ~7;
   if (xl == xr) {
@@ -103,7 +123,7 @@ void hline(char xl, char y, char xr) {
   addr[xr] |= lbit;
   xl += 8;
   while (xl < xr) {
-    addr[xl] = 255;
+    addr[xl] = xbitf[y%2];
     xl += 8;
   }
 }
